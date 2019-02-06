@@ -1,0 +1,37 @@
+version: "3"
+
+volumes:
+    db-data:
+
+#Create a bridge by name vote here
+networks:
+  nwdrvr:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:5.7
+    volumes: 
+      - db-data:/var/lib/mysqldocker
+    networks:
+      - nwdrvr
+    environment:
+        MYSQL_ROOT_PASSWORD: 12345678
+        MYSQL_DATABASE: cmad_db
+    ports:
+      - 3306:3306
+      - 33060:33060
+            
+
+  worker:
+    image: prasadgowda87/cmad_sandboxers_backend
+    networks:
+      - nwdrvr
+    ports:
+      - 19191:8080
+    #Now define the order in which the service has to start
+    # The - here specifies that it is a list item
+    depends_on:
+      - db
+    links:
+      - db:mysql
