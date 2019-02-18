@@ -25,4 +25,6 @@ public interface EventRepository extends PagingAndSortingRepository<EventV1, Int
     public List<EventV1> findByTimestampAfter(Long l);
     public List<EventV1> findAll();
     public Page<EventV1> findAll(Pageable page);
+    public List<EventV1> findBySourceInAndTimestampAfter(List<String> source, Long timestamp);
+    public Page<EventV1> findBySourceInAndTimestampAfter(List<String> source, Long timestamp,Pageable page);
 }
